@@ -1,12 +1,7 @@
 ### Due to the large size of the original data files after consolidation, only csv data source files classified by data source and type are provided.
 
-#  RawData used to the home directory code: 
-#  DataSet.RData (for R)
-#  DataSet.pkl (for python)
-
-
-
-# You can get the source data files by running the following code:
+# Get the source data files used by the home directory  code by running the following code:
+#  DataSet.RData is the raw data run by R，DataSet.pkl is the raw data 如 by python
 
 
 
