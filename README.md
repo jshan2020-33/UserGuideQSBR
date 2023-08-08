@@ -1,7 +1,7 @@
 ### User guide of QSBR models
 
 ## Folder content description
-RawData: DataSet.RData (for R); DataSet.pkl (for python)
+RawData: DataSet.RData (for R) and DataSet.pkl (for python)
 StepswiseMLR: features pre-screened by Stepwise MLR
 Unifed_XGBoost_hyperparameters: the optimized hyperparameters by grid search for the unifed XGBoost model
 
