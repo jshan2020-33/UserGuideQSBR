@@ -1,3 +1,73 @@
 RawData: 
   DataSet.RData (for R)
   DataSet.pkl (for python)
+
+## Get DataSet.RData for R
+
+graphics.off()
+rm(list = ls(all=TRUE))      
+
+## Import data
+library(caret)
+
+Bio_Absolv = read.csv('Absolv_173_n40.csv',
+					header=TRUE,stringsAsFactors=FALSE,sep= ',')
+					
+# Biodegradation (y)
+Bio = Bio_Absolv[,c(1:13)]
+
+# Descriptor (x)
+Absolv = Bio_Absolv[,-c(1:13)]
+Multiwfn = read.csv('ALL_Multiwfn_173_92.csv',
+					header=TRUE,stringsAsFactors=FALSE,sep= ',')
+PaDEL_2D = read.csv('20220517_3ndOPT_2D_173_3V_PaDEL.csv',
+					header=TRUE,stringsAsFactors=FALSE,sep= ',')
+PaDEL_3D = read.csv('20220517_3ndOPT_3D_173_3D_PaDEL.csv',
+					header=TRUE,stringsAsFactors=FALSE,sep= ',')
+RDKit_1 = read.csv('20220517_3ndOPT_173_RDKit_1.csv',
+					header=TRUE,stringsAsFactors=FALSE,sep= ',')
+RDKit_func = read.csv('20220517_3ndOPT_173_RDKit_func.csv',
+					header=TRUE,stringsAsFactors=FALSE,sep= ',')
+RDKit_Pharm = read.csv('20220517_3ndOPT_173_RDKit_Pharm.csv',
+					header=TRUE,stringsAsFactors=FALSE,sep= ',')
+Open_descr = read.csv('20220531_3ndOPT_173_openbabel_descr_FP_MACCS.csv',
+					header=TRUE,stringsAsFactors=FALSE,sep= ',')
+Open_ecfp = read.csv('20220531_3ndOPT_173_openbabel_ecfp.csv',
+					header=TRUE,stringsAsFactors=FALSE,sep= ',')
+
+PaDEL = merge(PaDEL_2D,PaDEL_3D,by='PCAS')#修正索引，方便后续合并数据
+data_X = cbind(Absolv,Multiwfn[,-1],
+					PaDEL[,-1],
+					RDKit_1[,-1],RDKit_func[,-1],RDKit_Pharm[,-1],
+					Open_descr[,-1],Open_ecfp[,-1])
+
+data_ALL = cbind(Bio,data_ALL_X)
+
+
+# Split the data set into training and testing sets
+library(caTools)
+set.seed(22)
+TM=sample.split(data_ALL$Log10P,4/5) #不能对矩阵用$提取对应名称的列
+train_data = data_ALL[TM,]
+test_data = data_ALL[!TM,]
+
+# Save data
+write.csv(train_data,file="train_data_20220630.csv")
+write.csv(train_data,file="test_data_20220630.csv")
+save.image("DataSet.RData")
+
+
+
+## Get DataSet.pkl for Python
+
+# Read csv file from the output of R
+strat_train_set = pd.read_csv(home + 'train_data_20220630.csv',
+                 #dtype={'BalabanJ':float, "GATS4s_R": float,'E2u_R':float},
+                 )
+strat_test_set = pd.read_csv(home + 'test_data_20220630.csv',
+                 #dtype={'BalabanJ':float, "GATS4s_R": float,'E2u_R':float},
+                 )
+
+# Save environment variable
+import dill
+dill.dump_session(DataSet.pkl')
