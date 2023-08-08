@@ -1,8 +1,16 @@
-RawData: 
-  DataSet.RData (for R)
-  DataSet.pkl (for python)
+### Due to the large size of the original data files after consolidation, only csv data source files classified by data source and type are provided.
 
-## Get DataSet.RData for R
+#  RawData used to the home directory code: 
+#  DataSet.RData (for R)
+#  DataSet.pkl (for python)
+
+
+
+# You can get the source data files by running the following code:
+
+
+
+### Get DataSet.RData for R
 
 graphics.off()
 rm(list = ls(all=TRUE))      
@@ -58,7 +66,7 @@ save.image("DataSet.RData")
 
 
 
-## Get DataSet.pkl for Python
+### Get DataSet.pkl for Python
 
 # Read csv file from the output of R
 strat_train_set = pd.read_csv(home + 'train_data_20220630.csv',
